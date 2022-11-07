@@ -15,11 +15,11 @@ while 1:
     print("Please 2 to Delete Book")
     print("Please 3 to Search Book")
     print("Please 4 to Show Book")
-    print("Please 4 to Finish")
+    print("Please 5 to Finish")
     menu = int(input())
     if menu == 1:
         sql = "INSERT INTO Book (bookid, bookname, publisher, price) VALUES(%s, %s, %s, %s)"
-        print("삽입할 책의 정보를 다음과 같은 순서로 입력해주세요(bookid, bookname, publisher, price: )")
+        print("삽입할 책의 정보를 다음과 같은 순서로 입력해주세요: (bookid,bookname,publisher,price)")
         bookid = int(input())
         bookname = str(input())
         publisher = str(input())
@@ -29,15 +29,15 @@ while 1:
     elif menu == 2:
         sql = "DELETE FROM Book WHERE bookname = %s"
         print("삭제할 책의 이름을 입력해주세요: ")
-        deleteBookname = str(input())
-        cur.execute(sql, deleteBookname)
+        deleteName = str(input())
+        cur.execute(sql, (deleteName,))
         minsungdb.commit()
 
     elif menu == 3:
         sql = "SELECT * FROM Book WHERE bookname = %s"
         print("검색할 책의 이름을 입력해주세요: ")
         searchBook = str(input())
-        cur.execute(sql, searchBook)
+        cur.execute(sql, (searchBook,))
         result = cur.fetchall()
         for data in result:
             print(data)
