@@ -30,7 +30,7 @@ while 1:
 
     if menu == 1:
         sql = "INSERT INTO center (title, owner, phone, address) VALUES(%s, %s, %s, %s)"
-        print("등록할 스포츠센터 정보를 입력해주세요 : (title, owner, phone, address)")
+        print("등록할 스포츠센터 정보를 입력해주세요 : (센터이름, 센터장, 센터번호, 센터주소)")
         title = str(input())
         owner = str(input())
         phone = str(input())
@@ -40,20 +40,20 @@ while 1:
 
     elif menu == 2:
         sql = "INSERT INTO member (memberNumber,memberName,memberId, memberPassword,memberAddress,memberPhone, memberRrn,memberEmail,centerTitle) VALUES (%s, %s, %s, %s, %s,%s,%s,%s,%s)"
-        print("등록할 멤버의 이름을 입력해주세요: ")
-        memberNumber
-        memberName
-        memberId
-        memberPassword
-        memberAddress
-        memberPhone
-        memberRrn
-        memberEmail
-        centerTitle
-        cur.execute(sql, (title, owner, phone, address))
+        print("등록할 멤버의 이름을 입력해주세요 : (멤버넘버, 이름, 아이디, 비밀번호, 주소, 전화번호, 주민등록번호, 이메일, 등록한 스포츠센터)")
+        memberNumber = int(input())
+        memberName = str(input())
+        memberId = str(input())
+        memberPassword = str(input())
+        memberAddress = str(input())
+        memberPhone = str(input())
+        memberRrn = str(input())
+        memberEmail = str(input())
+        centerTitle = str(input())
+        cur.execute(sql, (memberNumber,memberName,memberId, memberPassword,memberAddress,memberPhone, memberRrn,memberEmail,centerTitle))
 
     elif menu == 3:
-        sql = "SELECT * FROM Book WHERE bookname = %s"
+        sql = "INSERT INTO teacher (teacherNumber, teacherName ) VALUES ()"
         print("검색할 책의 이름을 입력해주세요: ")
         searchBook = str(input())
         cur.execute(sql, (searchBook,))
