@@ -28,6 +28,12 @@ while 1:
     print("13. Search teacher")
     print("14. Search lecture")
     print("15. Search car")
+    print("16. Update sports center")
+    print("17. Update member")
+    print("18. Update teacher")
+    print("19. Update lecture")
+    print("20. Update car")
+    print("21. SHOW all center people information")
     menu = int(input())
 
     if menu == 1:
@@ -175,11 +181,50 @@ while 1:
             print(data)
 
     elif menu == 15:
-        sql = "SELECT * FROM Book"
-        cur.execute(sql)
+        sql = "SELECT * FROM car WHERE carNumber = %s"
+        print("검색을 원하는 강의 이름을 입력해주세요: ")
+        carNumber = str(input())
+        cur.execute(sql, (carNumber,))
         result = cur.fetchall()
-        for row_data in result:
-            print(row_data)
+        for data in result:
+            print(data)
+
+    elif menu == 16:
+        sql = "SELECT * FROM car WHERE carNumber = %s"
+        print("검색을 원하는 강의 이름을 입력해주세요: ")
+        carNumber = str(input())
+        cur.execute(sql, (carNumber,))
+        result = cur.fetchall()
+        for data in result:
+            print(data)
+
+    elif menu == 17:
+        sql = "SELECT * FROM car WHERE carNumber = %s"
+        print("검색을 원하는 강의 이름을 입력해주세요: ")
+        carNumber = str(input())
+        cur.execute(sql, (carNumber,))
+        result = cur.fetchall()
+        for data in result:
+            print(data)
+
+    elif menu == 18:
+        sql = "SELECT * FROM car WHERE carNumber = %s"
+        print("검색을 원하는 강의 이름을 입력해주세요: ")
+        carNumber = str(input())
+        cur.execute(sql, (carNumber,))
+        result = cur.fetchall()
+        for data in result:
+            print(data)
+
+
+    elif menu == 21:
+        sql = "SELECT * FROM member WHERE centerTitle = %s UNION SELECT * FROM teacher WHERE centerTitle = %s"
+        print("정보 보기를 원하는 스포츠센터 이름을 입력해주세요: ")
+        title = str(input())
+        cur.execute(sql, (title,title,))
+        result = cur.fetchall()
+        for data in result:
+            print(data)
 
     else:
         break
