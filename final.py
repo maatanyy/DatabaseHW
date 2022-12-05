@@ -1,7 +1,13 @@
+#### 2018038076 소프트웨어학과 3학년 노민성
+#### 데이터베이스시스템 최종 프로젝트
+#### 2022-12-05
+
 import datetime
 
 import mysql.connector
 from datetime import time
+
+################################### Network Connect
 
 minsungdb = mysql.connector.connect(
         host="192.168.56.101",
@@ -12,29 +18,40 @@ minsungdb = mysql.connector.connect(
 
 cur = minsungdb.cursor()
 
+################################### MENU
+
 while 1:
     print("1. Enroll sports center")
     print("2. Enroll member")
     print("3. Enroll teacher")
     print("4. Enroll lecture")
-    print("5. Enroll car")
-    print("6. Delete sports center")
-    print("7. Delete member")
-    print("8. Delete teacher")
-    print("9. Delete lecture")
-    print("10. Delete car")
-    print("11. Search sports center")
-    print("12. Search member")
-    print("13. Search teacher")
-    print("14. Search lecture")
-    print("15. Search car")
-    print("16. Update sports center")
-    print("17. Update member")
-    print("18. Update teacher")
-    print("19. Update lecture")
-    print("20. Update car")
-    print("21. SHOW all center people information")
+    print("5. Enroll member car")
+    print("6. Enroll teacher car")
+
+    print("7. Delete sports center")
+    print("8. Delete member")
+    print("9. Delete teacher")
+    print("10. Delete lecture")
+    print("11. Delete car")
+
+    print("12. Search sports center")
+    print("13. Search member")
+    print("14. Search teacher")
+    print("15. Search lecture")
+    print("16. Search car")
+
+
+    print("17. Update sports center")
+    print("18. Update member")
+    print("19. Update teacher")
+    print("20. Update lecture")
+    print("21. Update car")
+
+
+    print("22. SHOW all center people information")
     menu = int(input())
+
+################################### INSERT
 
     if menu == 1:
         sql = "INSERT INTO center (title, owner, phone, address) VALUES(%s, %s, %s, %s)"
@@ -96,23 +113,33 @@ while 1:
         cur.execute(sql, (lectureCenter, lectureNumber, lectureName, lectureTotal, lectureLocation, lectureDay, startTime, endTime, lecturePay, lectureteacherNumber))
 #car
     elif menu == 5:
-        sql = "INSERT INTO car (carNumber, carType, carMember, carTeacher) VALUES (%s, %s, %s, %s)"
-        print("등록할 자동차 정보를 입력해주세요 : (자동차번호, 차종, 자동차소유 회원번호, 자동차소유 강사번호 )")
+        sql = "INSERT INTO car (centerTitle, carNumber, carType, carMember) VALUES (%s, %s, %s, %s)"
+        print("등록할 회원 자동차 정보를 입력해주세요 : (센터이름, 자동차번호, 차종, 자동차소유 회원번호 )")
+        centerTitle = str(input())
         carNumber = str(input())
         carType = str(input())
         carMember = int(input())
-        carTeacher = int(input())
-        cur.execute(sql, (carNumber, carType, carMember, carTeacher))
-
+        cur.execute(sql, (centerTitle, carNumber, carType, carMember))
 
     elif menu == 6:
+        sql = "INSERT INTO car (centerTitle, carNumber, carType, carTeacher) VALUES (%s, %s, %s, %s)"
+        print("등록할 강사 자동차 정보를 입력해주세요 : (센터이름, 자동차번호, 차종, 자동차소유 강사번호 )")
+        centerTitle = str(input())
+        carNumber = str(input())
+        carType = str(input())
+        carTeacher = int(input())
+        cur.execute(sql, (centerTitle, carNumber, carType, carTeacher))
+
+################################### Delete
+
+    elif menu == 7:
         sql = "DELETE FROM center WHERE title= %s"
         print("삭제할 스포츠센터 이름을 입력해주세요: ")
         deleteCenter = str(input())
         cur.execute(sql, (deleteCenter,))
         minsungdb.commit()
 
-    elif menu == 7:
+    elif menu == 8:
         sql = "DELETE FROM member WHERE centerTitle =%s AND memberNumber =%s"
         print("삭제할 회원이 다니는 스포츠센터 이름과 회원 번호를 입력해주세요: ")
         deleteCenter = str(input())
@@ -120,7 +147,7 @@ while 1:
         cur.execute(sql, (deleteCenter, deleteMember,))
         minsungdb.commit()
 
-    elif menu == 8:
+    elif menu == 9:
         sql = "DELETE FROM teacher WHERE centerTitle =%s AND teacherNumber =%s"
         print("삭제할 강사가 다니는 스포츠센터 이름과 강사 번호를 입력해주세요: ")
         deleteCenter = str(input())
@@ -128,7 +155,7 @@ while 1:
         cur.execute(sql, (deleteCenter, deleteTeacher,))
         minsungdb.commit()
 
-    elif menu == 9:
+    elif menu == 10:
         sql = "DELETE FROM lecture WHERE lectureteacherNumber =%s AND lectureNumber = %s"
         print("삭제할 강사가 다니는 스포츠센터 이름과 강사 번호와 강의번호를 입력해주세요: ")
         deleteCenter = str(input())
@@ -137,14 +164,17 @@ while 1:
         cur.execute(sql, (deleteTeacher, deleteLecture,))
         minsungdb.commit()
 
-    elif menu == 10:
-        sql = "SELECT * FROM Book"
-        cur.execute(sql)
-        result = cur.fetchall()
-        for row_data in result:
-            print(row_data)
-
     elif menu == 11:
+        sql = "DELETE FROM car WHERE centerTitle = %s AND carNumber =%s"
+        print("삭제할 자동차가 등록된 센터이름과 차랑 번호를 입력해주세요: ")
+        deleteCenter = str(input())
+        deleteNumber = str(input())
+        cur.execute(sql, (deleteCenter, deleteNumber,))
+        minsungdb.commit()
+
+################################### Search
+
+    elif menu == 12:
         sql = "SELECT * FROM center WHERE title = %s"
         print("정보를 원하는 센터 이름을 입력해주세요: ")
         searchCenter = str(input())
@@ -153,7 +183,7 @@ while 1:
         for data in result:
             print(data)
 
-    elif menu == 12:
+    elif menu == 13:
         sql = "SELECT * FROM member WHERE memberName = %s"
         print("검색을 원하는 회원 이름을 입력해주세요: ")
         searchMember = str(input())
@@ -162,7 +192,7 @@ while 1:
         for data in result:
             print(data)
 
-    elif menu == 13:
+    elif menu == 14:
         sql = "SELECT * FROM teacher WHERE teacherName = %s"
         print("검색을 원하는 강사 이름을 입력해주세요: ")
         searchTeacher = str(input())
@@ -171,7 +201,7 @@ while 1:
         for data in result:
             print(data)
 
-    elif menu == 14:
+    elif menu == 15:
         sql = "SELECT * FROM lecture WHERE lectureName = %s"
         print("검색을 원하는 강의 이름을 입력해주세요: ")
         lectureName = str(input())
@@ -180,32 +210,17 @@ while 1:
         for data in result:
             print(data)
 
-    elif menu == 15:
-        sql = "SELECT * FROM car WHERE carNumber = %s"
-        print("검색을 원하는 강의 이름을 입력해주세요: ")
-        carNumber = str(input())
-        cur.execute(sql, (carNumber,))
-        result = cur.fetchall()
-        for data in result:
-            print(data)
-
     elif menu == 16:
         sql = "SELECT * FROM car WHERE carNumber = %s"
-        print("검색을 원하는 강의 이름을 입력해주세요: ")
+        print("검색을 원하는 자동차 번호를 입력해주세요: ")
         carNumber = str(input())
         cur.execute(sql, (carNumber,))
         result = cur.fetchall()
         for data in result:
             print(data)
 
-    elif menu == 17:
-        sql = "SELECT * FROM car WHERE carNumber = %s"
-        print("검색을 원하는 강의 이름을 입력해주세요: ")
-        carNumber = str(input())
-        cur.execute(sql, (carNumber,))
-        result = cur.fetchall()
-        for data in result:
-            print(data)
+
+################################### Update
 
     elif menu == 18:
         sql = "SELECT * FROM car WHERE carNumber = %s"
@@ -216,8 +231,17 @@ while 1:
         for data in result:
             print(data)
 
+    elif menu == 19:
+        sql = "SELECT * FROM car WHERE carNumber = %s"
+        print("검색을 원하는 강의 이름을 입력해주세요: ")
+        carNumber = str(input())
+        cur.execute(sql, (carNumber,))
+        result = cur.fetchall()
+        for data in result:
+            print(data)
 
-    elif menu == 21:
+
+    elif menu == 20:
         sql = "SELECT * FROM member WHERE centerTitle = %s UNION SELECT * FROM teacher WHERE centerTitle = %s"
         print("정보 보기를 원하는 스포츠센터 이름을 입력해주세요: ")
         title = str(input())
