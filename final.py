@@ -1,5 +1,7 @@
-import mysql.connector
+import datetime
 
+import mysql.connector
+from datetime import time
 
 minsungdb = mysql.connector.connect(
         host="192.168.56.101",
@@ -67,20 +69,29 @@ while 1:
         cur.execute(sql, (teacherNumber, teacherName, teacherId, teacherPassword, teacherAddress, teacherPhone, teacherRrn, teacherEmail, centerTitle))
 #lecture
     elif menu == 4:
-        sql = "INSERT INTO lecture (lectureNumber, lectureTotal, lectureLocation,  lectureTime, lecturePay, lectureteacherNumber) VALUES (%s, %s, %s, %s, %s, %s)"
-        print("등록할 강의 정보를 입력해주세요 : (강의번호, 강의정원수, 강의장소, 강의시간, 강의요금, 강의강사이름)")
+        sql = "INSERT INTO lecture (lectureNumber,lectureName, lectureTotal, lectureLocation,  lectureDay, startTime, endTime, lecturePay, lectureteacherNumber) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        print("등록할 강의 정보를 입력해주세요 : (강의번호, 강의이름, 강의정원수, 강의장소,강의요일, 강의시작시간,강의종료시간, 강의요금, 강의강사번호)")
         lectureNumber = int(input())
+        lectureName = str(input())
         lectureTotal = str(input())
         lectureLocation = str(input())
-        lectureTime = int(input())
+        lectureDay = str(input())
+        a1 = int(input())
+        a2 = int(input())
+        a3 = int(input())
+        startTime = datetime.time(a1, a2, a3)
+        b1 = int(input())
+        b2 = int(input())
+        b3 = int(input())
+        endTime = datetime.time(b1, b2, b3)
         lecturePay = int(input())
         lectureteacherNumber = int(input())
-        cur.execute(sql, (lectureNumber, lectureTotal, lectureLocation, lectureTime, lecturePay, lectureteacherNumber))
+        cur.execute(sql, (lectureNumber, lectureName, lectureTotal, lectureLocation, lectureDay, startTime, endTime, lecturePay, lectureteacherNumber))
 #car
     elif menu == 5:
         sql = "INSERT INTO car (carNumber, carType, carMember, carTeacher) VALUES (%s, %s, %s, %s)"
         print("등록할 자동차 정보를 입력해주세요 : (자동차번호, 차종, 자동차소유 회원번호, 자동차소유 강사번호 )")
-        carNumber = int(input())
+        carNumber = str(input())
         carType = str(input())
         carMember = int(input())
         carTeacher = int(input())
@@ -88,25 +99,27 @@ while 1:
 
 
     elif menu == 6:
-        sql = "SELECT * FROM Book"
-        cur.execute(sql)
-        result = cur.fetchall()
-        for row_data in result:
-            print(row_data)
+        sql = "DELETE FROM center WHERE title= %s"
+        print("삭제할 스포츠센터 이름을 입력해주세요: ")
+        deleteCenter = str(input())
+        cur.execute(sql, (deleteCenter,))
+        minsungdb.commit()
 
     elif menu == 7:
-        sql = "SELECT * FROM Book"
-        cur.execute(sql)
-        result = cur.fetchall()
-        for row_data in result:
-            print(row_data)
+        sql = "DELETE FROM member WHERE centerTitle =%s AND memberNumber =%s"
+        print("삭제할 회원이 다니는 스포츠센터 이름과 회원 번호를 입력해주세요: ")
+        deleteCenter = str(input())
+        deleteMember = str(input())
+        cur.execute(sql, (deleteCenter, deleteMember,))
+        minsungdb.commit()
 
     elif menu == 8:
-        sql = "SELECT * FROM Book"
-        cur.execute(sql)
-        result = cur.fetchall()
-        for row_data in result:
-            print(row_data)
+        sql = "DELETE FROM teacher WHERE centerTitle =%s AND teacherNumber =%s"
+        print("삭제할 강사가 다니는 스포츠센터 이름과 강사 번호를 입력해주세요: ")
+        deleteCenter = str(input())
+        deleteTeacher = str(input())
+        cur.execute(sql, (deleteCenter, deleteTeacher,))
+        minsungdb.commit()
 
     elif menu == 9:
         sql = "SELECT * FROM Book"
