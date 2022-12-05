@@ -58,9 +58,18 @@ while 1:
     print("24. Update teacher password")
     print("25. Update teacher phone")
 
+    ###### 강의 정보 수정
+    print("26. Update lecture Location")
+    print("27. Update lecture Day")
+    print("28. Update lecture Pay")
+
+
+    ###### 차량 정보 수정
+    print("29. Update car number")
+
 
     ###### 전체 조회
-    print("26. SHOW all center people information")
+    print("30. SHOW all center people information")
     menu = int(input())
 
 ################################### INSERT
@@ -321,7 +330,7 @@ while 1:
         minsungdb.commit()
 
     elif menu == 25:
-        sql = "UPDATE teacher SET teacherPhone=%s  WHERE teacherPhone=%s AND centerTitle=%s"
+        sql = "UPDATE teacher SET teacherPhone=%s  WHERE teacherPhone=%s AND lectureCenter=%s"
         print("정보 수정을 원하는 강사가 다니는 센터 이름과 기존 전화번호를 입력해주세요: ")
         centerName = str(input())
         oldteacherPhone = str(input())
@@ -330,10 +339,51 @@ while 1:
         cur.execute(sql, (newteacherPhone, oldteacherPhone, centerName,))
         minsungdb.commit()
 
+    elif menu == 26:
+        sql = "UPDATE lecture SET lectureLocation=%s  WHERE lectureCenter=%s AND lectureName=%s"
+        print("정보 수정을 원하는 센터와 강의 이름을 입력해주세요: ")
+        centerName = str(input())
+        oldName = str(input())
+        print("새로운 강의 지역을 입력해주세요: ")
+        newLocation = str(input())
+        cur.execute(sql, (newLocation, centerName, oldName,))
+        minsungdb.commit()
+
+    elif menu == 27:
+        sql = "UPDATE lecture SET lectureDay=%s  WHERE lectureCenter=%s AND lectureName=%s"
+        print("정보 수정을 원하는 센터와 강의 이름을 입력해주세요: ")
+        centerName = str(input())
+        oldName = str(input())
+        print("새로운 강의 날짜를 입력해주세요: ")
+        newDay = str(input())
+        cur.execute(sql, (newDay, centerName, oldName,))
+        minsungdb.commit()
+
+
+    elif menu == 28:
+        sql = "UPDATE lecture SET lecturePay=%s  WHERE lectureName=%s AND lectureCenter=%s"
+        print("정보 수정을 원하는 센터와 강의 이름을 입력해주세요: ")
+        centerName = str(input())
+        oldName = str(input())
+        print("새로운 강의 요금을 입력해주세요: ")
+        newPay = str(input())
+        cur.execute(sql, (newPay, oldName, centerName,))
+        minsungdb.commit()
+
+
+    elif menu == 29:
+        sql = "UPDATE car SET carNumber=%s  WHERE carNumber=%s AND centerTitle=%s"
+        print("정보 수정을 원하는 센터이름과 차량 번호를 입력해주세요: ")
+        centerName = str(input())
+        oldNumber = str(input())
+        print("새로운 차량 번호를 입력해주세요: ")
+        newNumber  = str(input())
+        cur.execute(sql, (newNumber, oldNumber, centerName,))
+        minsungdb.commit()
 
 ################################### Show all center people information
 
-    elif menu == 26:
+    elif menu == 30:
         sql = "SELECT * FROM member WHERE centerTitle = %s UNION SELECT * FROM teacher WHERE centerTitle = %s"
         print("정보 보기를 원하는 스포츠센터 이름을 입력해주세요: ")
         title = str(input())
